@@ -1,61 +1,24 @@
 package solution600_699.solution630;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Script Created by daidai on 2017/6/25.
  */
 public class Solution {
     public int scheduleCourse(int[][] courses) {
-        List<Task> tasks = new ArrayList<>();
-        for (int[] cours : courses) {
-            tasks.add(new Task(cours[0], cours[1]));
-        }
-        Collections.sort(tasks);
-
-        List<Task> emptyTask = new ArrayList<>();
-        List<Task> res = new ArrayList<>();
-        for (Task task : tasks) {
-            if (res.isEmpty()) {
-                res.add(task);
-                task.actualEndTime = task.duration;
-                continue;
-            }
-            if (task.latestStartTime >= res.get(res.size() - 1).actualEndTime) {
-                task.actualEndTime = res.get(res.size() - 1).actualEndTime + task.duration;
-                res.add(task);
+        //紧急的任务优先
+        Arrays.sort(courses, (task1, task2) -> task1[1] - task2[1]);
+        PriorityQueue<Integer> queue = new PriorityQueue<>((a, b) -> b - a);
+        int time = 0;
+        for (int[] course : courses) {
+            time += course[0];
+            queue.offer(course[0]);
+            if (time > course[1]) {
+                time -= queue.poll();
             }
         }
-        return res.size();
-    }
-
-    class Task implements Comparable<Task> {
-        int duration;
-        int endTime;
-        int latestStartTime;
-        int actualEndTime;
-
-        public Task(int duration, int endTime) {
-            this.duration = duration;
-            this.endTime = endTime;
-            latestStartTime = this.endTime - this.duration;
-        }
-
-        @Override
-        public int compareTo(Task o) {
-            return this.duration - o.duration;
-        }
-
-        @Override
-        public String toString() {
-            return "Task{" +
-                       "duration=" + duration +
-                       ", endTime=" + endTime +
-                       ", latestStartTime=" + latestStartTime +
-                       '}';
-        }
+        return queue.size();
     }
 
     public static void main(String[] args) {

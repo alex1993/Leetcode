@@ -20,6 +20,7 @@ public class Solution {
         }
 
         int minHeight = Integer.MAX_VALUE;
+        //对每个节点分别进行层次遍历，如果发现层高是最低的，则将其加入结果中，否则每次都进行更新
         for (int i = 0; i < n; i++) {
             int level = bfsLevel(map, i);
             if (level < minHeight) {
@@ -72,25 +73,30 @@ public class Solution {
             map.get(ver2).add(ver1);
         }
 
+        //从节点0开始的，到各个节点间的距离
         Map<Integer, Integer> dist = new HashMap<>();
         bfs(map, 0, dist, new HashMap<>());
         int s = 0;
+        //找到离0最远的节点，0和该节点必然曾经经过了中央节点
         for (Map.Entry<Integer, Integer> entry : dist.entrySet()) {
             if (dist.get(s) < dist.get(entry.getKey())) {
                 s = entry.getKey();
             }
         }
 
+        //从末端节点开始遍历，并且记录每个节点的前驱
         Map<Integer, Integer> dist2 = new HashMap<>();
         Map<Integer, Integer> pre = new HashMap<>();
         bfs(map, s, dist2, pre);
         int v = 0;
+        //同理找到距离该点的最远节点
         for (Map.Entry<Integer, Integer> entry : dist2.entrySet()) {
             if (dist2.get(v) < dist2.get(entry.getKey())) {
                 v = entry.getKey();
             }
         }
 
+        //不断回溯节点，并将其加入到list中，在mid位置的即为结果
         List<Integer> list = new ArrayList<>();
         while (v != -1) {
             list.add(v);
@@ -111,6 +117,7 @@ public class Solution {
         Set<Integer> visited = new HashSet<>();
         visited.add(s);
 
+        //特别标记起始节点的pre为-1，作为之后回溯的结束标志
         level.put(s, 0);
         pre.put(s, -1);
 

@@ -3,7 +3,6 @@ package solution300_399.solution300;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Script Created by daidai on 2017/6/12.
@@ -59,9 +58,28 @@ public class Solution {
         return dp[nums.length][copy.length];
     }
 
+    public int longestIncreasingSubSequence(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            dp[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+            res = Math.max(res, dp[i]);
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = new int[]{4, 2};
-        System.out.println(solution.editDistance(nums));
+        int[] nums = new int[]{2, 4};
+        System.out.println(solution.lengthOfLIS(nums));
+        System.out.println(solution.longestIncreasingSubSequence(nums));
+
+        System.out.println(solution.longestIncreasingSubSequence(new int[]{2, 4, 5, 3}));
     }
 }

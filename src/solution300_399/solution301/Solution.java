@@ -1,101 +1,38 @@
 package solution300_399.solution301;
 
-import java.util.*;
+import java.util.List;
 
 /**
- * Script Created by daidai on 2017/6/28.
+ * Script Created by daidai on 2017/8/4.
  */
 public class Solution {
+    //fixme
     public List<String> removeInvalidParentheses(String s) {
-        List<String> ans = new ArrayList<>();
-        remove(s, ans, 0, 0, new char[]{'(', ')'});
-        return ans;
+        return null;
     }
 
-    public void remove(String s, List<String> ans, int lastI, int lastJ, char[] par) {
-        for (int stack = 0, i = lastI; i < s.length(); ++i) {
-            if (s.charAt(i) == par[0]) {
-                stack++;
+    //先从左往右扫，去除多余的右括号，然后再从右往左扫，去除多余的左括号
+    //如果有多个都可去除的括号，约定去除第一个出现的，例如 ())，去除s[1]
+    //但是有可能有多种组合结果，所以还需要记录上次删除的位置，下一次从该位置出发，可以避免产生重复的结果
+    //例如 (()))),应当去除 s[2]s[3]
+    private void remove(List<String> res, String s, int left, int right, char[] pair) {
+        int counter = 0;
+        for (int i = left; i < s.length(); i++) {
+            if (s.charAt(i) == pair[0]) {
+                counter++;
             }
-            if (s.charAt(i) == par[1]) {
-                stack--;
+            if (s.charAt(i) == pair[1]) {
+                counter--;
             }
-            if (stack >= 0) {
+            //始终匹配，那么继续
+            if (counter >= 0) {
                 continue;
             }
-            for (int j = lastJ; j <= i; ++j) {
-                if (s.charAt(j) == par[1] && (j == lastJ || s.charAt(j - 1) != par[1])) {
-                    remove(s.substring(0, j) + s.substring(j + 1, s.length()), ans, i, j, par);
+            for (int j = right; j < s.length(); j++) {
+                if (s.charAt(j) == pair[1] && (j == right || s.charAt(j - 1) != pair[1])) {
+//                    remove(s.substring(0, j) + s.substring(j + 1, s.length()), s, );
                 }
             }
-            return;
         }
-        String reversed = new StringBuilder(s).reverse().toString();
-        if (par[0] == '(') {
-            // finished left to right
-            remove(reversed, ans, 0, 0, new char[]{')', '('});
-        } else {
-            // finished right to left
-            ans.add(reversed);
-        }
-    }
-
-    private List<String> solve(String string) {
-        List<String> res = new ArrayList<>();
-        if (string == null) {
-            return res;
-        }
-
-        Queue<String> queue = new LinkedList<>();
-        Set<String> visited = new HashSet<>();
-        queue.add(string);
-        visited.add(string);
-
-        boolean found = false;
-        while (!queue.isEmpty()) {
-            String s = queue.poll();
-            if (isValid(s)) {
-                res.add(s);
-                found = true;
-            }
-            if (found) {
-                continue;
-            }
-
-            for (int i = 0; i < s.length(); i++) {
-                if (s.charAt(i) != '(' && s.charAt(i) != ')') {
-                    continue;
-                }
-                String t = s.substring(0, i) + s.substring(i + 1, s.length());
-                if (!visited.contains(t)) {
-                    queue.add(t);
-                    visited.add(t);
-                }
-            }
-
-        }
-        return res;
-    }
-
-    private boolean isValid(String s) {
-        int count = 0;
-        char[] chars = s.toCharArray();
-        for (char c : chars) {
-            if (c == '(') {
-                count++;
-            }
-            if (c == ')') {
-                count--;
-            }
-            if (count < 0) {
-                return false;
-            }
-        }
-        return count == 0;
-    }
-
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        System.out.println(solution.solve("("));
     }
 }

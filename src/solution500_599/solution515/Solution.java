@@ -1,7 +1,7 @@
 package solution500_599.solution515;
 
 /**
- * Script Created by daidai on 2017/7/31.
+ * Script Created by daidai on 2017/8/3.
  */
 
 import structure.TreeNode;
@@ -19,23 +19,24 @@ import java.util.List;
  * }
  */
 public class Solution {
+
     public List<Integer> largestValues(TreeNode root) {
         List<Integer> res = new ArrayList<>();
-        dfs(root, 0, res);
+        preOrder(root, 0, res);
         return res;
     }
 
-    private void dfs(TreeNode root, int level, List<Integer> res) {
+    private void preOrder(TreeNode root, int level, List<Integer> res) {
         if (root == null) {
             return;
         }
         if (res.size() <= level) {
             res.add(root.val);
         } else {
-            res.set(level, Math.max(root.val, res.get(level)));
+            res.set(level, Math.max(res.get(level), root.val));
         }
-        dfs(root.left, level + 1, res);
-        dfs(root.right, level + 1, res);
+        preOrder(root.left, level + 1, res);
+        preOrder(root.right, level + 1, res);
     }
 
     public static void main(String[] args) {

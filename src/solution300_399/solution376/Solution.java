@@ -1,32 +1,13 @@
 package solution300_399.solution376;
 
 /**
- * Script Created by daidai on 2017/7/27.
+ * Script Created by daidai on 2017/8/5.
  */
 public class Solution {
     public int wiggleMaxLength(int[] nums) {
-        if (nums.length < 2)
-            return nums.length;
-
-        int start = 1;
-        while ((start < nums.length) && (nums[start] == nums[start - 1]))
-            start++;
-        if (start == nums.length)
-            return 1;
-
-        boolean increasing = nums[start] > nums[0];   // denoting if we are expecting increased relative to prev
-        int prev = nums[0], maxLen = 1;
-        for (int i = start; i < nums.length; i++) {
-            if ((increasing && (nums[i] > prev)) || (!increasing && (nums[i] < prev))) {
-                increasing = !increasing;
-                maxLen++;
-            }
-            prev = nums[i];
+        if (nums == null || nums.length == 0) {
+            return 0;
         }
-        return maxLen;
-    }
-
-    public int solve(int[] nums) {
         int n = nums.length;
         int[] up = new int[n];
         int[] down = new int[n];
@@ -44,12 +25,15 @@ public class Solution {
                 down[i] = down[i - 1];
             }
         }
-        return Math.max(down[n - 1], up[n - 1]);
+        return Math.max(up[n - 1], down[n - 1]);
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.solve(new int[]{1, 4, 5}));
-        System.out.println(solution.wiggleMaxLength(new int[]{1, 1, 4, 1, 2, 5}));
+        System.out.println(solution.wiggleMaxLength(new int[]{1, 7, 4, 9, 2, 5}));
+        System.out.println(solution.wiggleMaxLength(new int[]{1, 17, 5, 10, 13, 15, 10, 5, 16, 8}));
+        System.out.println(solution.wiggleMaxLength(new int[]{}));
+        System.out.println(solution.wiggleMaxLength(new int[]{1}));
+        System.out.println(solution.wiggleMaxLength(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9}));
     }
 }

@@ -1,7 +1,7 @@
 package solution200_299.solution236;
 
 /**
- * Script Created by daidai on 2017/4/16.
+ * Script Created by daidai on 2017/8/3.
  */
 
 import structure.TreeNode;
@@ -20,6 +20,8 @@ public class Solution {
         if (root == null || root == p || root == q) {
             return root;
         }
+        //在左子树，或者右子树中查找，如果都在左子树，则返回左子树，或者返回右子树
+        //如果分别在左右子树，否则返回该节点（父节点）
         TreeNode left = lowestCommonAncestor(root.left, p, q);
         TreeNode right = lowestCommonAncestor(root.right, p, q);
         return left == null ? right : right == null ? left : root;

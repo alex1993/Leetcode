@@ -1,7 +1,7 @@
 package solution200_299.solution206;
 
 /**
- * Script Created by daidai on 2017/4/16.
+ * Script Created by daidai on 2017/8/1.
  */
 
 import structure.ListNode;
@@ -16,35 +16,29 @@ import structure.ListNode;
  */
 public class Solution {
     public ListNode reverseList(ListNode head) {
-        ListNode dump = null;
+        ListNode res = null;
         while (head != null) {
-            ListNode tmp = head.next;
-            head.next = dump;
-            dump = head;
-            head = tmp;
+            ListNode next = head.next;
+            head.next = res;
+            res = head;
+            head = next;
         }
-        return dump;
+        return res;
     }
 
-    public ListNode reverse(ListNode head) {
-        return reverse(head, null);
-    }
-
-    private ListNode reverse(ListNode head, ListNode newHead) {
-        if (head == null) {
-            return newHead;
+    private ListNode reverse(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
         }
-        ListNode next = head.next;
-        head.next = newHead;
-        return reverse(next, head);
+        ListNode reverse = reverse(head.next);
+        head.next.next = head;
+        head.next = null;
+        return reverse;
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        ListNode listNode = solution.reverseList(ListNode.parse(new int[]{1, 2, 3, 4}));
-        while (listNode != null) {
-            System.out.println(listNode.val);
-            listNode = listNode.next;
-        }
+        ListNode listNode = solution.reverse(ListNode.parse(new int[]{1, 2, 3, 4}));
+        ListNode.print(listNode);
     }
 }

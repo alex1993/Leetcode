@@ -3,25 +3,26 @@ package solution200_299.solution238;
 import java.util.Arrays;
 
 /**
- * Script Created by daidai on 2017/6/12.
+ * Script Created by daidai on 2017/8/7.
  */
 public class Solution {
     public int[] productExceptSelf(int[] nums) {
         int[] res = new int[nums.length];
-        res[0] = 1;
-        for (int i = 1; i < nums.length; i++) {
-            res[i] = res[i - 1] * nums[i];
+        int product = 1;
+        for (int i = 0; i < nums.length; i++) {
+            res[i] = product;
+            product *= nums[i];
         }
-        int right = 1;
+        product = 1;
         for (int i = nums.length - 1; i >= 0; i--) {
-            res[i] *= right;
-            right *= nums[i];
+            res[i] *= product;
+            product *= nums[i];
         }
         return res;
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(Arrays.toString(solution.productExceptSelf(new int[]{1, 0, 0, 4})));
+        System.out.println(Arrays.toString(solution.productExceptSelf(new int[]{1, 2})));
     }
 }

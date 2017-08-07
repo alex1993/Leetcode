@@ -1,9 +1,10 @@
 package solution400_499.solution464;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Script Created by daidai on 2017/7/19.
+ * Script Created by daidai on 2017/8/5.
  */
 public class Solution {
     public boolean canIWin(int maxChoosableInteger, int desiredTotal) {
@@ -11,16 +12,16 @@ public class Solution {
         if (total < desiredTotal) {
             return false;
         }
-        if (desiredTotal <= 0) {
-            return true;
-        }
         return sum(desiredTotal, new boolean[maxChoosableInteger + 1], new HashMap<>());
     }
 
-    private boolean sum(int desiredTotal, boolean[] used, Map<Integer, Boolean> map) {
-        int cur = arrayToInt(used);
-        if (map.containsKey(cur)) {
-            return map.get(cur);
+    //cache 用来保存某个序列的的结果，key是使用了的数字的hash值
+    //cache中只需要保存剩下的序列就好，因为这个序列已经能体现初剩下的desiredTotal
+    //used[i]用于记录那些数字已经使用过了
+    private boolean sum(int desiredTotal, boolean[] used, Map<Integer, Boolean> cache) {
+        int hash = arrayToInt(used);
+        if (cache.containsKey(hash)) {
+            return cache.get(hash);
         }
 
         for (int i = 1; i < used.length; i++) {
@@ -28,30 +29,31 @@ public class Solution {
                 continue;
             }
             used[i] = true;
-            if (desiredTotal <= i || !sum(desiredTotal - i, used, map)) {
+            //如果当前可以选的值已经比desired更大，或者选择了这个值之后对方会输，那么返回true
+            //并且更新cache
+            if (i >= desiredTotal || !sum(desiredTotal - i, used, cache)) {
                 used[i] = false;
-                map.put(cur, true);
+                cache.put(hash, true);
                 return true;
             }
             used[i] = false;
         }
-        map.put(cur, false);
+        cache.put(hash, false);
         return false;
     }
 
     private int arrayToInt(boolean[] used) {
-        int num = 0;
-        for (boolean b : used) {
-            num <<= 1;
-            if (b) {
-                num |= 1;
+        int res = 0;
+        for (int i = 0; i < used.length; i++) {
+            if (used[i]) {
+                res |= (1 << i);
             }
         }
-        return num;
+        return res;
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.canIWin(15, 105));
+        System.out.println(solution.canIWin(10, 11));
     }
 }

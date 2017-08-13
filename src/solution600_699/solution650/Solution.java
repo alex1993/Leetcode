@@ -5,12 +5,13 @@ package solution600_699.solution650;
  */
 public class Solution {
     public int minSteps(int n) {
+        //dp[i] 就是要达到 i 个需要的次数
         int[] dp = new int[n + 1];
         for (int i = 2; i < dp.length; i++) {
-            for (int j = i - 1; j >= 1; j--) {
+            for (int j = 1; j < i; j++) {
                 if (i % j == 0) {
                     dp[i] = dp[j] + i / j;
-                    break;
+//                    break;
                 }
             }
         }

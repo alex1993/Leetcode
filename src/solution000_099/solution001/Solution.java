@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Script Created by daidai on 2017/8/1.
  */
-public class Solution001 {
+public class Solution {
     public int[] twoSum(int[] nums, int target) {
         int[] res = new int[2];
         Map<Integer, Integer> map = new HashMap<>();
@@ -22,7 +22,7 @@ public class Solution001 {
     }
 
     public static void main(String[] args) {
-        Solution001 solution001 = new Solution001();
+        Solution solution001 = new Solution();
         System.out.println(Arrays.toString(solution001.twoSum(new int[]{2, 7, 11, 15}, 9)));
     }
 }

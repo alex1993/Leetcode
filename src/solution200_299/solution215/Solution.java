@@ -39,15 +39,15 @@ public class Solution {
     }
 
     public int findKthLargest(int[] nums, int k) {
-        return findKthSmallest(nums, 0, nums.length - 1, nums.length - k);
+        return quickFindKthSmallest(nums, 0, nums.length - 1, nums.length - k);
     }
 
-    //找到排好序后的第 k 个元素
-    private int findKthSmallest(int[] nums, int s, int e, int k) {
+    private int quickFindKthSmallest(int[] nums, int s, int e, int k) {
+        //目的是使得找到 nums[s] 的位置，交换位置，使得该位置的左边都比该值更小，右边都比该值更大，i位置有一个坑可以填
         int tmp = nums[s];
         int i = s, j = e;
         while (i < j) {
-            //find first element smaller than tmp...
+            //从右往左走，找到第一个比tmp更小的值，并赋值给左边的坑
             while (i < j && nums[j] > tmp) {
                 j--;
             }
@@ -56,7 +56,6 @@ public class Solution {
                 i++;
             }
 
-            //find first element greater than tmp...
             while (i < j && nums[i] < tmp) {
                 i++;
             }
@@ -70,9 +69,9 @@ public class Solution {
             return nums[i];
         }
         if (k <= i - 1) {
-            return findKthSmallest(nums, s, i - 1, k);
+            return quickFindKthSmallest(nums, s, i - 1, k);
         } else {
-            return findKthSmallest(nums, i + 1, e, k);
+            return quickFindKthSmallest(nums, i + 1, e, k);
         }
     }
 

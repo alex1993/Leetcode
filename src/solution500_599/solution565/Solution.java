@@ -54,10 +54,25 @@ public class Solution {
         }
     }
 
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        System.out.println(solution.arrayNesting(new int[]{5, 4, 0, 3, 1, 6, 2}));
-        System.out.println(solution.solve(new int[]{5, 4, 0, 3, 1, 6, 2}));
+    public int dfs(int[] nums) {
+        int max = Integer.MIN_VALUE;
+        boolean[] visited = new boolean[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            if (visited[i]) {
+                continue;
+            }
+            max = Math.max(max, calLength(nums, i, visited));
+        }
+        return max;
     }
 
+    private int calLength(int[] nums, int start, boolean[] visited) {
+        int i = start, count = 0;
+        while (count == 0 || i != start) {
+            visited[i] = true;
+            count++;
+            i = nums[i];
+        }
+        return count;
+    }
 }

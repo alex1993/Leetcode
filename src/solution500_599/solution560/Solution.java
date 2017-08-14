@@ -1,5 +1,8 @@
 package solution500_599.solution560;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Script Created by daidai on 2017/6/12.
  */
@@ -23,8 +26,21 @@ public class Solution {
         return res;
     }
 
+    public int solve(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int sum = 0;
+        int res = 0;
+        map.put(0, 1);
+        for (int num : nums) {
+            sum += num;
+            res += map.getOrDefault(sum - k, 0);
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.subarraySum(new int[]{1, }, 2));
+        System.out.println(solution.solve(new int[]{1, }, 2));
     }
 }

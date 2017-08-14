@@ -1,27 +1,24 @@
 package solution100_199.solution137;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
- * Script Created by daidai on 2017/6/8.
+ * Script Created by daidai on 2017/8/10.
  */
 public class Solution {
     public int singleNumber(int[] nums) {
-        //统计各个位出现的 1 的次数
-        int[] counter = new int[32];
+        //统计32位数，各个位上出现的次数，如果出现的不是3的倍数，那么最后组装起来就是结果
+        int[] count = new int[32];
         for (int num : nums) {
-            for (int j = 0; j < 32; j++) {
-                if ((num & (1 << j)) != 0) {
-                    counter[j]++;
+            for (int i = 0; i < 32; i++) {
+                if ((num & (1 << i)) != 0) {
+                    count[i]++;
                 }
             }
         }
 
-        //如果某一位不能整除 3，那么那个数的这一位不是 1
+        //如果某一位不能整除 3，那么那个数的这一位是 1
         int res = 0;
         for (int i = 0; i < 32; i++) {
-            if (counter[i] % 3 != 0) {
+            if (count[i] % 3 != 0) {
                 res |= 1 << i;
             }
         }
@@ -44,6 +41,6 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.solve(new int[]{1, 2, 3, 1, 2, 1, 2}));
+        System.out.println(solution.singleNumber(new int[]{1}));
     }
 }

@@ -3,33 +3,32 @@ package solution200_299.solution224;
 import java.util.Stack;
 
 /**
- * Script Created by daidai on 2017/5/15.
+ * Script Created by daidai on 2017/8/10.
  */
 public class Solution {
     public int calculate(String s) {
+        int result = 0, sign = 1;
         Stack<Integer> stack = new Stack<>();
-        int result = 0;
-        int sign = 1;
-        char[] chars = s.toCharArray();
-        for (int i = 0; i < chars.length; i++) {
-            if (Character.isDigit(chars[i])) {
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (Character.isDigit(c)) {
                 int num = 0;
-                while (i < chars.length && Character.isDigit(chars[i])) {
-                    num = num * 10 + (chars[i] - '0');
+                while (i < s.length() && Character.isDigit(s.charAt(i))) {
+                    num = num * 10 + s.charAt(i) - '0';
                     i++;
                 }
-                result += num * sign;
                 i--;
-            } else if (chars[i] == '+') {
+                result += sign * num;
+            } else if (c == '+') {
                 sign = 1;
-            } else if (chars[i] == '-') {
+            } else if (c == '-') {
                 sign = -1;
-            } else if (chars[i] == '(') {
+            } else if (c == '(') {
                 stack.push(result);
                 stack.push(sign);
                 sign = 1;
                 result = 0;
-            } else if (chars[i] == ')'){
+            } else if (c == ')') {
                 result = result * stack.pop() + stack.pop();
             }
         }
@@ -38,7 +37,6 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.calculate("(1+(4+5+2)-3)+(6+8)"));
+        System.out.println(solution.calculate("1 + 1"));
     }
-
 }

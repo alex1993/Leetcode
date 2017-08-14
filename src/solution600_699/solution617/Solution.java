@@ -1,52 +1,58 @@
 package solution600_699.solution617;
 
 /**
- * Script Created by daidai on 2017/6/11.
+ * Script Created by daidai on 2017/8/3.
  */
 
 import structure.TreeNode;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
-
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
- * int val;
- * TreeNode left;
- * TreeNode right;
- * TreeNode(int x) { val = x; }
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
  * }
  */
 public class Solution {
     public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
-        if (t1 == null && t2 == null) {
-            return null;
-        } else if (t1 != null && t2 != null) {
-            TreeNode root = new TreeNode(t1.val + t2.val);
-            root.left = mergeTrees(t1.left, t2.left);
-            root.right = mergeTrees(t1.right, t2.right);
-            return root;
-        } else if (t1 == null) {
-            TreeNode root = new TreeNode(t2.val);
-            root.left = mergeTrees(null, t2.left);
-            root.right = mergeTrees(null, t2.right);
-            return root;
+        if (t1 == null) {
+            return t2;
+        }
+        if (t2 == null) {
+            return t1;
+        }
+        TreeNode node = new TreeNode(t1.val + t2.val);
+        node.left = mergeTrees(t1.left, t2.left);
+        node.right = mergeTrees(t1.right, t2.right);
+        return node;
+    }
+
+    private TreeNode solve(TreeNode t1, TreeNode t2) {
+        if (t1 != null && t2 != null) {
+            TreeNode merge = new TreeNode(t1.val + t2.val);
+            merge.left = solve(t1.left, t2.left);
+            merge.right = solve(t1.right, t2.right);
+            return merge;
+        } else if (t1 == null && t2 != null) {
+            TreeNode merge = new TreeNode(t2.val);
+            merge.left = solve(null, t2.left);
+            merge.right = solve(null, t2.right);
+            return merge;
+        } else if (t1 != null) {
+            TreeNode merge = new TreeNode(t1.val);
+            merge.left = solve(t1.left, null);
+            merge.right = solve(t1.right, null);
+            return merge;
         } else {
-            TreeNode root = new TreeNode(t1.val);
-            root.left = mergeTrees(t1.left, null);
-            root.right = mergeTrees(t1.right, null);
-            return root;
+            return null;
         }
     }
 
-
     public static void main(String[] args) {
         Solution solution = new Solution();
-        TreeNode treeNode = solution.mergeTrees(TreeNode.parse(new Integer[]{1, 2, null, 3}), TreeNode.parse(new Integer[]{1, null, 2, null, 3}));
-        List<Integer> res = new ArrayList<>();
-        TreeNode.levelOrder(treeNode, res);
-        System.out.println(res);
+        TreeNode res = solution.solve(TreeNode.parse(new Integer[]{1, 3, 2, 5}), TreeNode.parse(new Integer[]{2, 1, 3, null, 4, null, 7}));
+        TreeNode.levelPrint(res);
     }
 }

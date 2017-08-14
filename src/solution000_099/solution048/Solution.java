@@ -1,13 +1,16 @@
 package solution000_099.solution048;
 
 /**
- * Script Created by daidai on 2017/4/15.
+ * Script Created by daidai on 2017/8/8.
  */
 public class Solution {
     public void rotate(int[][] matrix) {
+        if (matrix == null || matrix.length == 0) {
+            return;
+        }
         int n = matrix.length;
         for (int i = 0; i < n; i++) {
-            for (int j = i; j < n; j++) {
+            for (int j = 0; j < i; j++) {
                 int tmp = matrix[i][j];
                 matrix[i][j] = matrix[j][i];
                 matrix[j][i] = tmp;
@@ -23,8 +26,4 @@ public class Solution {
         }
     }
 
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        solution.rotate(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-    }
 }

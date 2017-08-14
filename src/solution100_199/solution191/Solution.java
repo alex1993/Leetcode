@@ -1,7 +1,7 @@
 package solution100_199.solution191;
 
 /**
- * Script Created by daidai on 2017/7/4.
+ * Script Created by daidai on 2017/8/5.
  */
 public class Solution {
     // you need to treat n as an unsigned value
@@ -14,11 +14,19 @@ public class Solution {
         return count;
     }
 
+    public int solve(int n) {
+        int res = 0;
+        for (int i = 0; i < 32; i++) {
+            res += (1 << i & n) != 0 ? 1 : 0;
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         System.out.println(solution.hammingWeight(3));
-        System.out.println(solution.hammingWeight(1));
-        System.out.println(solution.hammingWeight(-1));
-        System.out.println(solution.hammingWeight(15));
+        System.out.println(Integer.toBinaryString(-3));
+        System.out.println(Integer.toBinaryString(3));
+        System.out.println(Integer.toBinaryString(-4));
     }
 }

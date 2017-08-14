@@ -4,10 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Script Created by daidai on 2017/4/16.
+ * Script Created by daidai on 2017/8/8.
  */
-
-// Definition for singly-linked list with a random pointer.
 class RandomListNode {
     int label;
     RandomListNode next, random;
@@ -19,20 +17,22 @@ class RandomListNode {
 
 public class Solution {
     public RandomListNode copyRandomList(RandomListNode head) {
+        if (head == null) {
+            return null;
+        }
         Map<RandomListNode, RandomListNode> map = new HashMap<>();
-        RandomListNode dump = head;
-        while (dump != null) {
-            map.put(dump, new RandomListNode(dump.label));
-            dump = dump.next;
+        RandomListNode dummy = head;
+        while (dummy != null) {
+            map.put(dummy, new RandomListNode(dummy.label));
+            dummy = dummy.next;
         }
 
-        dump = head;
-        while (dump != null) {
-            map.get(dump).next = map.get(dump.next);
-            map.get(dump).random = map.get(dump.random);
-            dump = dump.next;
+        dummy = head;
+        while (dummy != null) {
+            map.get(dummy).next = map.get(dummy.next);
+            map.get(dummy).random = map.get(dummy.random);
+            dummy = dummy.next;
         }
         return map.get(head);
     }
-
 }

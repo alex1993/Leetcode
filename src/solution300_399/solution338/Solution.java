@@ -3,27 +3,28 @@ package solution300_399.solution338;
 import java.util.Arrays;
 
 /**
- * Script Created by daidai on 2017/7/4.
+ * Script Created by daidai on 2017/8/5.
  */
 public class Solution {
     public int[] countBits(int num) {
         int[] res = new int[num + 1];
         for (int i = 0; i <= num; i++) {
-            res[i] = countBit(i);
+            res[i] = count(i);
         }
         return res;
     }
 
-    private int countBit(int n) {
-        int count = 0;
-        while (n != 0) {
-            count++;
-            n -= (n & -n);
+    private int count(int num) {
+        int res = 0;
+        while (num != 0) {
+            res++;
+            num -= (num & -num);
+//            num = (num & (num - 1));
         }
-        return count;
+        return res;
     }
 
-    private int[] solve(int num) {
+    public int[] solve(int num) {
         int[] res = new int[num + 1];
         for (int i = 0; i <= num; i++) {
             res[i] = res[i >> 1] + (i & 1);
@@ -33,7 +34,7 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(Arrays.toString(solution.countBits(5)));
-        System.out.println(Arrays.toString(solution.countBits(6)));
+        System.out.println(Arrays.toString(solution.solve(5)));
     }
 }
+

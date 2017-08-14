@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Script Created by daidai on 2017/6/10.
+ * Script Created by daidai on 2017/8/13.
  */
 public class Solution {
     public List<Integer> grayCode(int n) {

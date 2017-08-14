@@ -1,7 +1,7 @@
 package solution100_199.solution114;
 
 /**
- * Script Created by daidai on 2017/6/13.
+ * Script Created by daidai on 2017/8/3.
  */
 
 import structure.TreeNode;
@@ -27,8 +27,12 @@ public class Solution {
         root.right = prev;
         root.left = null;
         prev = root;
-        return;
     }
 
-
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        TreeNode tree = TreeNode.parse(new Integer[]{1, 2, 5, 3, 4, null, 6});
+        solution.flatten(tree);
+        TreeNode.levelPrint(tree);
+    }
 }

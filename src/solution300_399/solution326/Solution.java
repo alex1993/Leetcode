@@ -1,7 +1,7 @@
 package solution300_399.solution326;
 
 /**
- * Script Created by daidai on 2017/6/26.
+ * Script Created by daidai on 2017/8/7.
  */
 public class Solution {
     public boolean isPowerOfThree(int n) {

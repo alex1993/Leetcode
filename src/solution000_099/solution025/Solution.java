@@ -3,13 +3,12 @@ package solution000_099.solution025;
 import structure.ListNode;
 
 /**
- * Script Created by daidai on 2017/4/19.
+ * Script Created by daidai on 2017/8/13.
  */
 public class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
-        if (head == null || k < 2) {
+        if (head == null || head.next == null || k < 2)
             return head;
-        }
         ListNode dummy = new ListNode(0);
         dummy.next = head;
 
@@ -18,8 +17,8 @@ public class Solution {
         while (true) {
             count = k;
             while (count > 0 && tail != null) {
-                tail = tail.next;
                 count--;
+                tail = tail.next;
             }
             if (tail == null) {
                 break;
@@ -33,9 +32,9 @@ public class Solution {
                 temp.next = tail.next;
                 tail.next = temp;
             }
+            tail = head;
+            prev = head;
         }
-
         return dummy.next;
-
     }
 }

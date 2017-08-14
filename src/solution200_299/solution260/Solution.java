@@ -1,51 +1,35 @@
 package solution200_299.solution260;
 
-import java.util.*;
+import java.util.Arrays;
 
 /**
- * Script Created by daidai on 2017/6/9.
+ * Script Created by daidai on 2017/8/10.
  */
 public class Solution {
     public int[] singleNumber(int[] nums) {
-        Map<Integer, Integer> map = new HashMap<>();
+        if (nums == null || nums.length == 0) {
+            return new int[2];
+        }
+        int xor = 0;
         for (int num : nums) {
-            map.put(num, map.getOrDefault(num, 0) + 1);
+            xor ^= num;
         }
-        List<Integer> res = new ArrayList<>();
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            if (entry.getValue() == 1) {
-                res.add(entry.getKey());
-            }
-        }
-        int[] resArr = new int[res.size()];
-        for (int i = 0, resSize = res.size(); i < resSize; i++) {
-            resArr[i] = res.get(i);
-        }
-        return resArr;
-    }
-
-    private int[] solve(int[] nums) {
-        int temp = 0;
-        for (int n : nums) {
-            temp ^= n;
-        }
-        System.out.println(Integer.toBinaryString(temp));
-        System.out.println(Integer.toBinaryString(-temp));
-        int mask = -temp & temp;
-
-        int single1 = 0, single2 = 0;
+        //a和b都只出现一次，那么a，b肯定至少有一位不相同，根据不相同的这一位分成两组
+        //每一组都有一个元素只出现一次
+        int diff = xor & (-xor);
+        int res1 = 0, res2 = 0;
         for (int num : nums) {
-            if ((num & mask) == 0) {
-                single1 ^= num;
+            if ((num & diff) == 0) {
+                res1 ^= num;
             } else {
-                single2 ^= num;
+                res2 ^= num;
             }
         }
-        return new int[] {single1, single2};
+        return new int[]{res1, res2};
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(Arrays.toString(solution.solve(new int[]{1, 2, 1, 3, 2, 5})));
+        System.out.println(Arrays.toString(solution.singleNumber(new int[]{1, 2, 1, 3, 2, 5})));
     }
 }

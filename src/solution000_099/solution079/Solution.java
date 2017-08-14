@@ -1,27 +1,22 @@
 package solution000_099.solution079;
 
 /**
- * Script Created by daidai on 2017/4/15.
+ * Script Created by daidai on 2017/8/10.
  */
 public class Solution {
-    private int[][] dirs = new int[][]{
-            {0, -1}, {0, 1}, {-1, 0}, {1, 0}
-    };
+
+    private int[][] dirs = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
     public boolean exist(char[][] board, String word) {
-        if (board.length == 0 || board[0].length == 0) {
+        if (board == null || board.length == 0) {
             return false;
         }
-        if (word.length() == 0) {
-            return true;
-        }
-
-        char[] chars = word.toCharArray();
-
-        boolean[][] visited = new boolean[board.length][board[0].length];
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                if (isMatch(board, i, j, chars, 0, visited)) {
+        int m = board.length;
+        int n = board[0].length;
+        boolean[][] visited = new boolean[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (backTracking(board, word, 0, i, j, visited)) {
                     return true;
                 }
             }
@@ -29,42 +24,30 @@ public class Solution {
         return false;
     }
 
-    private boolean isMatch(char[][] board, int i, int j, char[] chars, int index, boolean[][] visited) {
-        if (index == chars.length) {
+    private boolean backTracking(char[][] board, String word, int index, int i, int j, boolean[][] visited) {
+        if (index == word.length()) {
             return true;
         }
-        if (i < 0 || j < 0 || i == board.length || j == board[0].length) {
-            return false;
-        }
-        if (visited[i][j] || board[i][j] != chars[index]) {
+        if (i < 0 || i == board.length || j < 0 || j == board[0].length || visited[i][j] || board[i][j] != word.charAt(index)) {
             return false;
         }
         visited[i][j] = true;
         for (int[] dir : dirs) {
-            int row = i + dir[0];
-            int col = j + dir[1];
-            if (isMatch(board, row, col, chars, index + 1, visited)) {
+            if (backTracking(board, word, index + 1, i + dir[0], j + dir[1], visited)) {
                 return true;
             }
         }
         visited[i][j] = false;
         return false;
-
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-//        char[][] board = new char[][]{
-//                {'A', 'B', 'C', 'E'},
-//                {'S', 'F', 'C', 'S'},
-//                {'A', 'D', 'E', 'E'}
-//        };
-//        System.out.println(solution.exist(board, "ABCB"));
-//        System.out.println(solution.exist(board, "SEE"));
-//        System.out.println(solution.exist(board, "ABCCED"));
-        char[][] board = new char[][] {
-                {'a'}, {'a'}
+        char[][] chars = new char[][]{
+            {'A', 'B', 'C', 'E'},
+            {'S', 'F', 'C', 'S'},
+            {'A', 'D', 'E', 'E'}
         };
-        System.out.println(solution.exist(board, "aaa"));
+        System.out.println(solution.exist(chars, "ABCB"));
     }
 }

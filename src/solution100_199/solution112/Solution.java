@@ -1,7 +1,7 @@
 package solution100_199.solution112;
 
 /**
- * Script Created by daidai on 2017/6/8.
+ * Script Created by daidai on 2017/8/3.
  */
 
 import structure.TreeNode;
@@ -17,21 +17,17 @@ import structure.TreeNode;
  */
 public class Solution {
     public boolean hasPathSum(TreeNode root, int sum) {
-        return helper(root, sum);
-    }
-
-    private boolean helper(TreeNode root, int sum) {
         if (root == null) {
             return false;
         }
-        if (root.left == null && root.right == null && sum == root.val) {
+        if (root.left == null && root.right == null && root.val == sum) {
             return true;
         }
-        return helper(root.left, sum - root.val) || helper(root.right, sum - root.val);
+        return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.hasPathSum(TreeNode.parse(new Integer[]{}), 0));
+        System.out.println(solution.hasPathSum(TreeNode.parse(new Integer[]{5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, 1}), 22));
     }
 }

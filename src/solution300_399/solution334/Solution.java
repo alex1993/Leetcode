@@ -1,31 +1,45 @@
 package solution300_399.solution334;
 
 /**
- * Script Created by daidai on 2017/6/12.
+ * Script Created by daidai on 2017/8/5.
  */
 public class Solution {
     public boolean increasingTriplet(int[] nums) {
         if (nums == null || nums.length < 3) {
             return false;
         }
-        int[] dp = new int[nums.length];
-        int max = 0;
-        for (int i = 0; i < nums.length; i++) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        for (int i = 0; i < n; i++) {
             dp[i] = 1;
-            for (int j = 0; j < i; j++) {
-                if (nums[j] < nums[i]) {
+            for (int j = 0; j < n; j++) {
+                if (nums[i] > nums[j]) {
                     dp[i] = Math.max(dp[i], dp[j] + 1);
                 }
             }
-            max = Math.max(max, dp[i]);
+            if (dp[i] >= 3) {
+                return true;
+            }
         }
-        return max >= 3;
+        return false;
+    }
+
+    public boolean solve(int[] nums) {
+        int c1 = Integer.MAX_VALUE, c2 = Integer.MAX_VALUE;
+        for (int num : nums) {
+            if (num <= c1) {
+                c1 = num;
+            } else if (num <= c2) {
+                c2 = num;
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.increasingTriplet(new int[]{1, 2, 3, 4, 5}));
-        System.out.println(solution.increasingTriplet(new int[]{1, 2, 5}));
-        System.out.println(solution.increasingTriplet(new int[]{2, 1, 3, 2}));
+        System.out.println(solution.solve(new int[]{4, 5, 3}));
     }
 }

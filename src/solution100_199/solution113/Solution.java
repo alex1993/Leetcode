@@ -1,7 +1,7 @@
 package solution100_199.solution113;
 
 /**
- * Script Created by daidai on 2017/8/14.
+ * Script Created by daidai on 2017/8/3.
  */
 
 import structure.TreeNode;
@@ -21,21 +21,23 @@ import java.util.List;
 public class Solution {
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
         List<List<Integer>> res = new ArrayList<>();
-        sum(root, res, new ArrayList<>(), sum);
+        dfs(res, new ArrayList<>(), root, sum);
         return res;
     }
 
-    private void sum(TreeNode root, List<List<Integer>> res, List<Integer> prefix, int target) {
+    private void dfs(List<List<Integer>> res, List<Integer> prefix, TreeNode root, int sum) {
         if (root == null) {
             return;
         }
         prefix.add(root.val);
-        if (root.left == null && root.right == null && target == root.val) {
+        if (root.left == null && root.right == null && sum == root.val) {
             res.add(new ArrayList<>(prefix));
-        } else {
-            sum(root.left, res, prefix, target - root.val);
-            sum(root.right, res, prefix, target - root.val);
+            //需要记得删除最后一个元素，否则就直接写成 if else 的形式，要不不会调用最后一行的prefix.remove()!!!
+            prefix.remove(prefix.size() - 1);
+            return;
         }
+        dfs(res, prefix, root.left, sum - root.val);
+        dfs(res, prefix, root.right, sum - root.val);
         prefix.remove(prefix.size() - 1);
     }
 

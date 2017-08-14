@@ -1,7 +1,7 @@
 package solution000_099.solution023;
 
 /**
- * Script Created by daidai on 2017/7/20.
+ * Script Created by daidai on 2017/8/5.
  */
 
 import structure.ListNode;
@@ -18,13 +18,38 @@ import java.util.PriorityQueue;
  */
 public class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
+        PriorityQueue<ListNode> queue = new PriorityQueue<>((node1, node2) -> node1.val - node2.val);
+        for (int i = 0; i < lists.length; i++) {
+            if (lists[i] != null) {
+                queue.offer(lists[i]);
+            } else {
+                continue;
+            }
+            lists[i] = lists[i].next;
+        }
+
+        ListNode res = new ListNode(0);
+        ListNode dummy = res;
+        while (!queue.isEmpty()) {
+            ListNode node = queue.poll();
+            if (node.next != null) {
+                queue.offer(node.next);
+            }
+            node.next = null;
+            res.next = node;
+            res = res.next;
+        }
+        return dummy.next;
+    }
+
+    public ListNode solve(ListNode[] lists) {
         if (lists == null || lists.length == 0) {
             return null;
         }
         return divideConquer(lists, 0, lists.length - 1);
     }
 
-    private ListNode divideConquer(ListNode[] lists, int start, int end) {
+    public ListNode divideConquer(ListNode[] lists, int start, int end) {
         if (start > end) {
             return null;
         }
@@ -41,19 +66,17 @@ public class Solution {
         ListNode res = new ListNode(0);
         ListNode dummy = res;
         while (left != null && right != null) {
-            int cur;
             if (left.val < right.val) {
-                cur = left.val;
+                res.next = left;
                 left = left.next;
+                res.next.next = null;
             } else {
-                cur = right.val;
+                res.next = right;
                 right = right.next;
+                res.next.next = null;
             }
-            ListNode next = new ListNode(cur);
-            res.next = next;
-            res = next;
+            res = res.next;
         }
-
         if (left != null) {
             res.next = left;
         }
@@ -67,7 +90,7 @@ public class Solution {
         Solution solution = new Solution();
         ListNode listNode1 = ListNode.parse(new int[]{1, 5, 6, 7, 9});
         ListNode listNode2 = ListNode.parse(new int[]{2, 3, 4, 10, 19});
-        ListNode res = solution.mergeKLists(new ListNode[]{listNode1, listNode2});
+        ListNode res = solution.solve(new ListNode[]{listNode1, listNode2});
         ListNode.print(res);
     }
 }

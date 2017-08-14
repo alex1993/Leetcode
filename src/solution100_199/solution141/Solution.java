@@ -1,7 +1,7 @@
 package solution100_199.solution141;
 
 /**
- * Script Created by daidai on 2017/6/19.
+ * Script Created by daidai on 2017/8/10.
  */
 
 import structure.ListNode;
@@ -22,12 +22,11 @@ public class Solution {
         if (head == null) {
             return false;
         }
-        ListNode slow = head;
-        ListNode fast = head;
+        ListNode slow = head, fast = head;
         while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
-            if (fast == slow) {
+            if (slow == fast) {
                 return true;
             }
         }
@@ -41,5 +40,4 @@ public class Solution {
         root.next = sec;
         System.out.println(solution.hasCycle(root));
     }
-
 }

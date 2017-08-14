@@ -7,63 +7,73 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Script Created by daidai on 2017/4/17.
+ * Script Created by daidai on 2017/8/3.
  */
 public class Solution {
 
-    int[] father;
-    boolean[] hasEdgeO;
+    class UnionFind {
+        int[] father;
+        boolean[] hasEdge;
+
+        UnionFind(char[][] board) {
+            int m = board.length, n = board[0].length;
+            father = new int[m * n];
+            hasEdge = new boolean[m * n];
+            for (int i = 0; i < father.length; i++) {
+                father[i] = i;
+            }
+            for (int i = 0; i < hasEdge.length; i++) {
+                int row = i / n;
+                int col = i % n;
+                hasEdge[i] = (board[row][col] == 'O' && (row == 0 || row == m - 1 || col == 0 || col == n - 1));
+            }
+        }
+
+        void union(int x, int y) {
+            int rootX = find(x);
+            int rootY = find(y);
+            //将rootX指向了rootY
+            father[rootX] = rootY;
+            //所以重点是rootY的状态需要更新
+            hasEdge[rootY] = hasEdge[rootX] || hasEdge[rootY];
+        }
+
+        int find(int x) {
+            if (father[x] == x) {
+                return x;
+            }
+            father[x] = find(father[x]);
+            return father[x];
+        }
+    }
 
     public void solution(char[][] board) {
-        if (board.length == 0 || board[0].length == 0) {
+        if (board == null || board.length == 0) {
             return;
         }
-        int m = board.length, n = board[0].length;
-        father = new int[m * n];
-        hasEdgeO = new boolean[father.length];
+        int m = board.length;
+        int n = board[0].length;
+        UnionFind unionFind = new UnionFind(board);
 
-        for (int i = 0; i < father.length; i++) {
-            father[i] = i;
-        }
-        for (int i = 0; i < hasEdgeO.length; i++) {
-            int row = i / n, col = i % n;
-            hasEdgeO[i] = (board[row][col] == 'O' && (row == 0 || row == m - 1 || col == 0 || col == n - 1));
-        }
-
-        for (int i = 0; i < father.length; i++) {
+        for (int i = 0; i < unionFind.hasEdge.length; i++) {
             int row = i / n, col = i % n;
             int up = row - 1, right = col + 1;
             if (up >= 0 && board[row][col] == board[up][col]) {
-                union(i, i - n);
+                unionFind.union(i, i - n);
             }
             if (right < n && board[row][col] == board[row][right]) {
-                union(i, i + 1);
+                unionFind.union(i, i + 1);
             }
         }
 
-        for (int i = 0; i < father.length; i++) {
-            int row = i / n, col = i % n;
-            if (board[row][col] == 'O' && !hasEdgeO[find(i)]) {
-                board[row][col] = 'X';
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int index = i * n + j;
+                if (board[i][j] == 'O' && !unionFind.hasEdge[unionFind.find(index)]) {
+                    board[i][j] = 'X';
+                }
             }
         }
-
-    }
-
-    private void union(int x, int y) {
-        int rootX = find(x);
-        int rootY = find(y);
-        boolean hasEdgeO = this.hasEdgeO[rootX] || this.hasEdgeO[rootY];
-        father[rootX] = rootY;
-        this.hasEdgeO[rootY] = hasEdgeO;
-    }
-
-    private int find(int x) {
-        if (father[x] == x) {
-            return x;
-        }
-        father[x] = find(father[x]);
-        return father[x];
     }
 
     public void solve(char[][] board) {
@@ -112,6 +122,7 @@ public class Solution {
     class Point {
         int x;
         int y;
+
         Point(int x, int y) {
             this.x = x;
             this.y = y;
@@ -152,7 +163,7 @@ public class Solution {
             for (int[] dir : dirs) {
                 int row = dir[0] + point.x;
                 int col = dir[1] + point.y;
-                if (row >= 0 && row < m && col >=0 && col < n && board[row][col] == 'O') {
+                if (row >= 0 && row < m && col >= 0 && col < n && board[row][col] == 'O') {
                     queue.add(new Point(row, col));
                 }
             }
@@ -171,8 +182,9 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-//                char[][] board = ParseUtil.parseString(bS);
-//        solution.solution(board);
-//        System.out.println(Arrays.deepToString(board));
+        String bS = "[\"XOXX\",\"OXOX\",\"XOXO\",\"OXOX\",\"XOXO\",\"OXOX\"]";
+        char[][] board = ParseUtil.parseMatrix(bS);
+        solution.solution(board);
+        System.out.println(Arrays.deepToString(board));
     }
 }

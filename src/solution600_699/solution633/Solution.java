@@ -1,7 +1,7 @@
 package solution600_699.solution633;
 
 /**
- * Script Created by daidai on 2017/7/2.
+ * Script Created by daidai on 2017/8/10.
  */
 public class Solution {
     public boolean judgeSquareSum(int c) {
@@ -17,7 +17,21 @@ public class Solution {
     }
 
     private boolean isSquare(int num) {
-        if (num == 0) {return true;}
+        long low = 0, high = num;
+        while (low <= high) {
+            long mid = low + (high - low) / 2;
+            if (mid * mid < num) {
+                low = mid + 1;
+            } else if (mid * mid == num) {
+                return true;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return false;
+    }
+
+    private boolean newton(int num) {
         long r = num;
         while (r * r > num) {
             r = (r + num / r) / 2;

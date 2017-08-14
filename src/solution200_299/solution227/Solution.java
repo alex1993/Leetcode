@@ -1,7 +1,7 @@
 package solution200_299.solution227;
 
 /**
- * Script Created by daidai on 2017/5/15.
+ * Script Created by daidai on 2017/8/10.
  */
 public class Solution {
     public int calculate(String s) {
@@ -11,31 +11,31 @@ public class Solution {
         s = s.trim().replace(" ", "");
 
         int res = 0;
-        char[] chars = s.toCharArray();
         int i = 0;
         char sign = '+';
         int prev = 0;
-        while (i < chars.length) {
-            int cur = 0;
-            while (i < chars.length && Character.isDigit(chars[i])) {
-                cur = cur * 10 + chars[i] - '0';
-                i++;
+        while (i < s.length()) {
+            int num = 0;
+            if (s.charAt(i) == ' ') {
+                continue;
+            }
+            while (Character.isDigit(num)) {
+                num = num * 10 + s.charAt(i) - '0';
             }
 
             if (sign == '+') {
                 res += prev;
-                prev = cur;
+                prev = num;
             } else if (sign == '-') {
                 res += prev;
-                prev = -cur;
+                prev = -num;
             } else if (sign == '*') {
-                prev *= cur;
-            } else if (sign == '/') {
-                prev /= cur;
+                res *= prev;
+            } else {
+                res /= prev;
             }
-
-            if (i < chars.length) {
-                sign = chars[i];
+            if (i < s.length()) {
+                sign = s.charAt(i);
             }
             i++;
         }

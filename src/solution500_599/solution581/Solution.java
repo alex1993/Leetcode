@@ -1,32 +1,32 @@
 package solution500_599.solution581;
 
-import java.util.Arrays;
-
 /**
- * Script Created by daidai on 2017/5/14.
+ * Script Created by daidai on 2017/8/14.
  */
 public class Solution {
     public int findUnsortedSubarray(int[] nums) {
-        if (nums == null || nums.length == 0) {
+        int len = nums.length;
+        int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
+        int start = -1, end = -1;
+
+        for (int i = 0; i < len; i++) {
+            max = Math.max(max, nums[i]); //from left to right, search the current max
+            min = Math.min(min, nums[len - i - 1]);  //from right to left, search the current min
+
+            if (nums[i] < max)
+                end = i;
+            if (nums[len - i - 1] > min)
+                start = len - i - 1;
+        }
+
+        if (start == -1) //the entire array is already sorted
             return 0;
-        }
-        int[] target = Arrays.copyOf(nums, nums.length);
-        Arrays.sort(target);
-
-        int start = 0;
-        for (; start < nums.length && nums[start] == target[start]; start++) {
-        }
-
-        int end = nums.length - 1;
-        for (; end > start && nums[end] == target[end]; end--) {
-        }
 
         return end - start + 1;
-
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        solution.findUnsortedSubarray(new int[]{2, 6, 4, 8, 10, 9, 15});
+        System.out.println(solution.findUnsortedSubarray(new int[]{2, 6, 4, 8, 10, 9, 15}));
     }
 }

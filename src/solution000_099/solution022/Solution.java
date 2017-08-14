@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Script Created by daidai on 2017/6/28.
+ * Script Created by daidai on 2017/8/4.
  */
 public class Solution {
     public List<String> generateParenthesis(int n) {
@@ -13,25 +13,25 @@ public class Solution {
         return res;
     }
 
-    private void backTracking(List<String> res, StringBuilder prefix, int leftCount, int rightCount, int n) {
-        if (prefix.length() == 2 * n) {
-            res.add(prefix.toString());
+    private void backTracking(List<String> res, StringBuilder sb, int open, int close, int n) {
+        if (open == n && close == n) {
+            res.add(sb.toString());
             return;
         }
-        if (leftCount < n) {
-            prefix.append('(');
-            backTracking(res, prefix, leftCount + 1, rightCount, n);
-            prefix.setLength(prefix.length() - 1);
+        if (open < n) {
+            sb.append('(');
+            backTracking(res, sb, open + 1, close, n);
+            sb.setLength(sb.length() - 1);
         }
-        if (rightCount < leftCount) {
-            prefix.append(')');
-            backTracking(res, prefix, leftCount, rightCount + 1, n);
-            prefix.setLength(prefix.length() - 1);
+        if (close < open) {
+            sb.append(')');
+            backTracking(res, sb, open, close + 1, n);
+            sb.setLength(sb.length() - 1);
         }
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.generateParenthesis(0));
+        System.out.println(solution.generateParenthesis(6));
     }
 }

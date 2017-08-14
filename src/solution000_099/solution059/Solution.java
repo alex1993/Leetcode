@@ -3,37 +3,40 @@ package solution000_099.solution059;
 import java.util.Arrays;
 
 /**
- * Script Created by daidai on 2017/5/25.
+ * Script Created by daidai on 2017/8/8.
  */
 public class Solution {
     public int[][] generateMatrix(int n) {
-        int[][] res = new int[n][n];
-        //right, down, left, up
-        int[][] dirs = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0},};
-
-        int i = 0;
-        int[] pos = new int[]{0, -1};
-        int d = 0;
+        if (n <= 0) {
+            return new int[][]{};
+        }
         int m = n;
-        int length = n * n;
-        while (i < length) {
-            for (int j = 0; j < n; j++) {
-                i++;
-                pos[0] += dirs[d][0];
-                pos[1] += dirs[d][1];
-                res[pos[0]][pos[1]] = i;
+        int[][] dirs = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        int count = 1;
+        int total = n * n;
+
+        int[][] matrix = new int[n][n];
+        int[] start = new int[]{0, -1};
+        int dir = 0;
+        while (count <= total) {
+            for (int i = 0; i < n; i++) {
+                start[0] += dirs[dir][0];
+                start[1] += dirs[dir][1];
+                matrix[start[0]][start[1]] = count;
+                count++;
             }
+
             int tmp = m;
             m = n;
             n = tmp;
             n--;
-            d = (d + 1) % 4;
+            dir = (dir + 1) % 4;
         }
-        return res;
+        return matrix;
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(Arrays.deepToString(solution.generateMatrix(5)));
+        System.out.println(Arrays.deepToString(solution.generateMatrix(1)));
     }
 }

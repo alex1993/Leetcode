@@ -1,7 +1,7 @@
 package solution100_199.solution109;
 
 /**
- * Script Created by daidai on 2017/6/6.
+ * Script Created by daidai on 2017/8/11.
  */
 /**
  * Definition for singly-linked list.
@@ -14,9 +14,6 @@ package solution100_199.solution109;
 
 import structure.ListNode;
 import structure.TreeNode;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Definition for a binary tree node.
@@ -53,9 +50,7 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        TreeNode treeNode = solution.sortedListToBST(ListNode.parse(new int[]{-1, 0, 1, 2}));
-        List<Integer> res = new ArrayList<>();
-        TreeNode.levelOrder(treeNode, res);
-        System.out.println(res);
+        TreeNode root = solution.sortedListToBST(ListNode.parse(new int[]{1, 2, 3, 4, 5, 5, 6}));
+        TreeNode.levelPrint(root);
     }
 }

@@ -1,7 +1,7 @@
 package solution100_199.solution162;
 
 /**
- * Script Created by daidai on 2017/6/22.
+ * Script Created by daidai on 2017/8/7.
  */
 public class Solution {
     public int findPeakElement(int[] nums) {
@@ -17,7 +17,10 @@ public class Solution {
 
     }
 
-    private int solve(int[] nums) {
+    public int solve(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
         int low = 0, high = nums.length - 1;
         while (low < high) {
             int mid = low + (high - low) / 2;
@@ -30,9 +33,8 @@ public class Solution {
         return low;
     }
 
-
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.findPeakElement(new int[]{1, 2}));
+        System.out.println(solution.findPeakElement(new int[]{1, 2, 3, 1}));
     }
 }

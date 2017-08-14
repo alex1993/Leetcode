@@ -1,31 +1,21 @@
 package solution200_299.solution208;
 
-import java.util.Arrays;
-
 /**
- * Script Created by daidai on 2017/4/13.
+ * Script Created by daidai on 2017/8/13.
  */
 public class Trie {
 
     class TreeNode {
-        char c;
         boolean exist;
         TreeNode[] next = new TreeNode[26];
 
-        @Override
-        public String toString() {
-            return "TreeNode{" +
-                           "c=" + c +
-                           ", exist=" + exist +
-                           '}';
-        }
     }
 
-    TreeNode node;
+    TreeNode root;
 
     /** Initialize your data structure here. */
     public Trie() {
-        node = new TreeNode();
+        root = new TreeNode();
     }
 
     /** Inserts a word into the trie. */
@@ -34,24 +24,20 @@ public class Trie {
             return;
         }
         char[] chars = word.toCharArray();
-        TreeNode dump = node;
-        for (char aChar : chars) {
-            int index = aChar - 'a';
-            if (dump.next[index] != null) {
-                dump = dump.next[index];
-                continue;
+        TreeNode root = this.root;
+        for (char c : chars) {
+            int index = c - 'a';
+            if (root.next[index] == null) {
+                root.next[index] = new TreeNode();
             }
-            TreeNode tmp = new TreeNode();
-            tmp.c = aChar;
-            dump.next[index] = tmp;
-            dump = tmp;
+            root = root.next[index];
         }
-        dump.exist = true;
+        root.exist = true;
     }
 
     /** Returns if the word is in the trie. */
     public boolean search(String word) {
-        TreeNode dump = node;
+        TreeNode dump = root;
         int index = -1;
         for (char c : word.toCharArray()) {
             index = c - 'a';
@@ -65,25 +51,23 @@ public class Trie {
 
     /** Returns if there is any word in the trie that starts with the given prefix. */
     public boolean startsWith(String prefix) {
-        TreeNode dump = node;
+        TreeNode dummy = root;
         for (char c : prefix.toCharArray()) {
             int index = c - 'a';
-            if (dump.next[index] == null) {
+            if (dummy.next[index] == null) {
                 return false;
             }
-            dump = dump.next[index];
+            dummy = dummy.next[index];
         }
         return true;
     }
 
-    public static void main(String[] args) {
-        Trie trie = new Trie();
-        trie.insert("a");
-        trie.insert("hello");
-        System.out.println(trie.search("hell"));
-        System.out.println(trie.search("helloa"));
-        System.out.println(trie.search("hell"));
-        System.out.println(trie.search("hello"));
-        System.out.println(trie.startsWith("a"));
-    }
 }
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * boolean param_2 = obj.search(word);
+ * boolean param_3 = obj.startsWith(prefix);
+ */

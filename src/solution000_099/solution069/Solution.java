@@ -1,10 +1,10 @@
 package solution000_099.solution069;
 
 /**
- * Script Created by daidai on 2017/5/27.
+ * Script Created by daidai on 2017/8/10.
  */
 public class Solution {
-    public long mySqrt(long x) {
+    public int mySqrt(int x) {
         if (x == 0) {
             return 0;
         }
@@ -15,7 +15,7 @@ public class Solution {
                 high = mid - 1;
             } else {
                 if ((mid + 1) * (mid + 1) > x) {
-                    return mid;
+                    return (int) mid;
                 }
                 low = mid + 1;
             }
@@ -36,7 +36,7 @@ public class Solution {
     public static void main(String[] args) {
         Solution solution = new Solution();
 //        System.out.println(solution.mySqrt(1000));
-        System.out.println(solution.newton(2147395599));
-        System.out.println(solution.mySqrt(2147395599));
+//        System.out.println(solution.newton(2147395599));
+        System.out.println(solution.mySqrt(Integer.MAX_VALUE));
     }
 }

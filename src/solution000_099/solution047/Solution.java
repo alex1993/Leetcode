@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Script Created by daidai on 2017/3/23.
+ * Script Created by daidai on 2017/8/8.
  */
 public class Solution {
     public List<List<Integer>> permuteUnique(int[] nums) {

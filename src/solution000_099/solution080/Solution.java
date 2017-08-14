@@ -1,21 +1,23 @@
 package solution000_099.solution080;
 
 /**
- * Script Created by daidai on 2017/6/3.
+ * Script Created by daidai on 2017/8/11.
  */
 public class Solution {
     public int removeDuplicates(int[] nums) {
-        int index = 0;
-        for (int num : nums) {
-            if (index < 2 || num > nums[index - 2]) {
-                nums[index++] = num;
+        int count = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 1 && nums[i] == nums[count - 2]) {
+                continue;
             }
+            nums[count] = nums[i];
+            count++;
         }
-        return index;
+        return count;
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.removeDuplicates(new int[]{1,}));
+        System.out.println(solution.removeDuplicates(new int[]{1, 1, 2, 2, 2, 3, 3, 3}));
     }
 }
